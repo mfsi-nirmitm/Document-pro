@@ -1,5 +1,6 @@
 package com.documentpro.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import com.documentpro.model.User;
 import com.documentpro.service.UserService;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +24,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="login", method=RequestMethod.POST)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@RequestBody Map<String, String> json) throws ServletException {
 		
 		System.out.println("this is here");
@@ -46,7 +48,8 @@ public class UserController {
 			throw new ServletException("Invalid login. Please check your email and password");
 		}
 		
-		return "Login Successfull!";
+		return Jwts.builder().setSubject(emailId).claim("roles", "user").setIssuedAt(new Date())
+				.signWith(SignatureAlgorithm.HS256, "secretKey").compact();
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
