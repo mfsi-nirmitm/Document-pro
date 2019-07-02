@@ -6,12 +6,16 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.documentpro.model.User;
+import com.documentpro.service.JwtService;
 import com.documentpro.service.UserService;
 
 import io.jsonwebtoken.Jwts;
@@ -22,10 +26,19 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserController {
 
 	@Autowired
+	private PasswordEncoder encoder;
+	
+	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JwtService jwtService;
+	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@RequestBody Map<String, String> json) throws ServletException {
+	public String login(@RequestBody Map<String, String> json) throws Exception {
 		
 		System.out.println("this is here");
 		
@@ -34,17 +47,28 @@ public class UserController {
 		}
 		
 		String emailId = json.get("emailId");
+//		String password = encoder.encode( json.get("password") );
 		String password = json.get("password");
 		
+		jwtService.authenticate(emailId, password);
+		
 		User user = userService.getUserByEmailId(emailId);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(emailId);
+		
+//		String token = jwtTokenUtil.generateToken(userDetails);
 		
 		if (user == null) {
 			throw new ServletException("Email'Id not found.");
 		}
 		
+		System.out.println(password);
+//		password = encoder.encode(password);
+		System.out.println(encoder.matches(password, user.getPassword()));
 		String pwd = user.getPassword();
-		
-		if (!password.equals(pwd) ) {
+		System.out.println(user.getPassword());
+		System.out.println(password);
+
+		if (!encoder.matches(password, pwd)) {
 			throw new ServletException("Invalid login. Please check your email and password");
 		}
 		
@@ -54,6 +78,11 @@ public class UserController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public User registerUser(@RequestBody User user) {
+		
+		System.out.println(user.getPassword());
+		user.setPassword(encoder.encode(user.getPassword()));
+		System.out.println(user.getPassword());
+		
 		return userService.save(user);
 	}
 	
