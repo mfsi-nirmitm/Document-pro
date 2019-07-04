@@ -2,12 +2,14 @@ package com.documentpro;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-
-import com.documentpro.config.JwtFilter;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaRepositories({"com.documentpro.dao"})
+@ComponentScan({"com.documentpro"})
+@EnableJpaAuditing(setDates = true)
 public class DocumentProApplication {
 
 //	@Bean

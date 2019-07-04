@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.documentpro.dao.DocumentRepository;
+import com.documentpro.dao.UserDao;
 import com.documentpro.model.User;
 import com.documentpro.service.JwtService;
 import com.documentpro.service.UserService;
@@ -36,6 +38,12 @@ public class UserController {
 	
 	@Autowired
 	private JwtService jwtService;
+	
+	@Autowired
+	private UserDao userrepo;
+	
+	@Autowired
+	private DocumentRepository documentRepo;
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@RequestBody Map<String, String> json) throws Exception {
@@ -80,10 +88,15 @@ public class UserController {
 	public User registerUser(@RequestBody User user) {
 		
 		System.out.println(user.getPassword());
+		System.out.println(user.getDocuments().get(0)+"  sdsd ");
 		user.setPassword(encoder.encode(user.getPassword()));
 		System.out.println(user.getPassword());
-		
-		return userService.save(user);
+		userService.save(user);
+		User temp=userrepo.getUserByEmailId(user.getEmailId());
+		System.out.println(temp.getDocuments().get(0).getDocumentName());
+		System.out.println(temp.getDocuments().get(0).getUser());
+		System.out.println(documentRepo.getOne(temp.getDocuments().get(0).getDocumentId()).getUser()+"  ss ");
+		return userService.getUserByEmailId(user.getEmailId());
 	}
 	
 }
