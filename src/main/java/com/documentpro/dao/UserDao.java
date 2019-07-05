@@ -11,4 +11,6 @@ public interface UserDao extends CrudRepository<User, Long> {
 	User getUserByEmailId(String emailId);
 	
 	User save(User user);
+	
+	User getUserByUserId(Long userId);
 }

@@ -1,6 +1,5 @@
 package com.documentpro.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +55,11 @@ public class UserServiceImpl implements UserService, UserDetailsService, ConfigC
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = getUserByEmailId(username);
 		return new org.springframework.security.core.userdetails.User(user.getEmailId(), user.getPassword(), new ArrayList<>());
+	}
+
+	@Override
+	public User getUserByUserId(Long userId) {
+		return userDao.getUserByUserId(userId);
 	}
 
 }

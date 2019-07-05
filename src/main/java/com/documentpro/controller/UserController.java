@@ -87,15 +87,15 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public User registerUser(@RequestBody User user) {
 		
-		System.out.println(user.getPassword());
-		System.out.println(user.getDocuments().get(0)+"  sdsd ");
+//		System.out.println(user.getPassword());
+//		System.out.println(user.getDocuments().get(0)+"  sdsd ");
 		user.setPassword(encoder.encode(user.getPassword()));
-		System.out.println(user.getPassword());
+//		System.out.println(user.getPassword());
 		userService.save(user);
-		User temp=userrepo.getUserByEmailId(user.getEmailId());
-		System.out.println(temp.getDocuments().get(0).getDocumentName());
-		System.out.println(temp.getDocuments().get(0).getUser());
-		System.out.println(documentRepo.getOne(temp.getDocuments().get(0).getDocumentId()).getUser()+"  ss ");
+//		User temp=userrepo.getUserByEmailId(user.getEmailId());
+//		System.out.println(temp.getDocuments().get(0).getDocumentName());
+//		System.out.println(temp.getDocuments().get(0).getUser());
+//		System.out.println(documentRepo.getOne(temp.getDocuments().get(0).getDocumentId()).getUser()+"  ss ");
 		return userService.getUserByEmailId(user.getEmailId());
 	}
 	
