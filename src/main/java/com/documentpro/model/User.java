@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,6 +37,10 @@ public class User {
 	@OneToMany(mappedBy="user" , cascade= { CascadeType.ALL })
 	public List<Document> documents; 
 
+	
+//	@ManyToMany
+//	private List<Share> shares;
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -83,5 +88,13 @@ public class User {
 	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
 	}
+
+//	public List<Share> getShares() {
+//		return shares;
+//	}
+//
+//	public void setShares(List<Share> shares) {
+//		this.shares = shares;
+//	}
 
 }

@@ -38,6 +38,10 @@ public class Document {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private User user;
+	
+//	@JsonManagedReference
+	@OneToMany(mappedBy="sharedId" , cascade= { CascadeType.ALL })
+	public List<Share> shares;
 
 	public Long getDocumentId() {
 		return documentId;
@@ -77,6 +81,14 @@ public class Document {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Share> getShares() {
+		return shares;
+	}
+
+	public void setShares(List<Share> shares) {
+		this.shares = shares;
 	}
 
 }
