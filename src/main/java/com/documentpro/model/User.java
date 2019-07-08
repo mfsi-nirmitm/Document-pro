@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,7 +35,12 @@ public class User {
 	@JsonManagedReference
 	@OneToMany(mappedBy="user" , cascade= { CascadeType.ALL })
 	public List<Document> documents; 
-
+	
+	@OneToMany(mappedBy="sharedId" , cascade= { CascadeType.ALL })
+	public List<Share> shares;
+	
+	@OneToMany(mappedBy="historyId", cascade = { CascadeType.ALL } )
+	private List<History> history;
 	
 //	@ManyToMany
 //	private List<Share> shares;
@@ -89,12 +93,20 @@ public class User {
 		this.documents = documents;
 	}
 
-//	public List<Share> getShares() {
-//		return shares;
-//	}
-//
-//	public void setShares(List<Share> shares) {
-//		this.shares = shares;
-//	}
+	public List<Share> getShares() {
+		return shares;
+	}
 
+	public void setShares(List<Share> shares) {
+		this.shares = shares;
+	}
+
+	public List<History> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<History> history) {
+		this.history = history;
+	}
+	
 }

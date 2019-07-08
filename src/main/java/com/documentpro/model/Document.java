@@ -90,5 +90,5 @@ public class Document {
 	public void setShares(List<Share> shares) {
 		this.shares = shares;
 	}
-
+	
 }
