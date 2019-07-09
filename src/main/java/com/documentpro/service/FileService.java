@@ -8,5 +8,5 @@ public interface FileService {
 
 	public void createDirectory(File theDir);
 	
-	public void transferFile(MultipartFile file, Long userId);
+	public boolean transferFile(MultipartFile file, Long userId);
 }

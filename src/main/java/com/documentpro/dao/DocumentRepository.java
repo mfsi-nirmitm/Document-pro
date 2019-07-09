@@ -8,5 +8,6 @@ import com.documentpro.model.Document;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
+	Document getDocumentByDocumentId(Long documentId);
 	
 }

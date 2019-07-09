@@ -26,6 +26,9 @@ public class Document {
 
 	@Column(name="document_name")
 	private String documentName;
+	
+	@Column(name="document_type")
+	private String documentType;
 
 	@Column(name="latest_version")
 	private Long latestVersion;
@@ -59,6 +62,14 @@ public class Document {
 		this.documentName = documentName;
 	}
 	
+	public String getDocumentType() {
+		return documentType;
+	}
+
+	public void setDocumentType(String documentType) {
+		this.documentType = documentType;
+	}
+
 	public Long getLatestVersion() {
 		return latestVersion;
 	}

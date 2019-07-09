@@ -37,17 +37,20 @@ public class FileServiceImpl implements FileService, ConfigConstants {
 	}
 
 	@Override
-	public void transferFile(MultipartFile file, Long userId) {
-		
+	public boolean transferFile(MultipartFile file, Long userId) {
+		boolean result = false;
 		try {
 			Path destPath = Paths.get(ROOT_PATH);
 			System.out.println(destPath.toAbsolutePath());
 			File destFile = new File(destPath.toAbsolutePath()+"\\"+userId+"\\"+file.getOriginalFilename());
 			file.transferTo(destFile);
+			result = true;
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
+			result = false;
 			e.printStackTrace();
 		}
+		return result;
 		
 	}
 
