@@ -18,7 +18,7 @@ public class VersionServiceImpl implements VersionService {
 	private VersionRepository versionRepo;
 	
 	@Override
-	public boolean createNewVersion(long version, long documentId) {
+	public Version createNewVersion(long version, long documentId) {
 		
 		Version versionEntity = new Version();
 		versionEntity.setDocument(documentRepo.getDocumentByDocumentId(documentId));
@@ -34,14 +34,13 @@ public class VersionServiceImpl implements VersionService {
 	}
 
 	@Override
-	public boolean saveVersion(Version versionEntity) {
-		if ( versionRepo.save(versionEntity) != null ) {
-			return true;
-		}
-		
-		return false;
+	public Version saveVersion(Version versionEntity) {
+		return versionRepo.save(versionEntity);
 	}
-	
-	
+
+	@Override
+	public Long getLatestVersion(Long documentId) {
+		return documentRepo.getDocumentByDocumentId(documentId).getLatestVersion();
+	}
 
 }

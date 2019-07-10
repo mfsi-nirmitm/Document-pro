@@ -19,39 +19,52 @@ public class FileServiceImpl implements FileService, ConfigConstants {
 		
 		// if the directory does not exist, create it
 		if (!theDir.exists()) {
+			
 		    System.out.println("creating directory: " + theDir.getName());
 		    boolean result = false;
 
 		    try{
+		    	
 		        theDir.mkdir();
 		        result = true;
+		    
 		    } 
 		    catch(SecurityException se){
-		        //handle it
+		        
 		    }        
 		    if(result) {    
+		    	
 		        System.out.println("DIR created");  
+		        
 		    }
+		    
 		}
 		
 	}
 
 	@Override
-	public boolean transferFile(MultipartFile file, Long userId) {
+	public boolean transferFile(MultipartFile file, Long userId, String versionName) {
+		
 		boolean result = false;
+		
 		try {
+			
 			Path destPath = Paths.get(ROOT_PATH);
 			System.out.println(destPath.toAbsolutePath());
-			File destFile = new File(destPath.toAbsolutePath()+"\\"+userId+"\\"+file.getOriginalFilename());
+			String fileName[] = file.getOriginalFilename().split("\\.");
+			File destFile = new File(destPath.toAbsolutePath()+"\\"+userId+"\\"+fileName[0]+versionName+"."+fileName[1]);
 			file.transferTo(destFile);
 			result = true;
+			
 		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
+			
 			result = false;
 			e.printStackTrace();
+			
 		}
-		return result;
 		
+		return result;
+	
 	}
 
 }

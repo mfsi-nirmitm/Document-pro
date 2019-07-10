@@ -4,9 +4,11 @@ import com.documentpro.model.Version;
 
 public interface VersionService {
 
-	public boolean createNewVersion(long version, long documentId);
+	public Version createNewVersion(long version, long documentId);
 	
 	public String getVersionName(long version);
 	
-	public boolean saveVersion(Version versionEntity);
+	public Version saveVersion(Version versionEntity);
+	
+	public Long getLatestVersion(Long documentId);
 }
