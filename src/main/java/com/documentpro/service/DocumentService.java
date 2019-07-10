@@ -11,4 +11,6 @@ public interface DocumentService {
 	
 	Document findByUserAndDocumentId(User user, Long documentId);
 	
+	public void deleteDocument(Document document);
+	
 }

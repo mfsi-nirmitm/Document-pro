@@ -29,4 +29,9 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentRepo.findByUserAndDocumentId(user, documentId);
 	}
 
+	@Override
+	public void deleteDocument(Document document) {
+		documentRepo.delete(document);
+	}
+
 }

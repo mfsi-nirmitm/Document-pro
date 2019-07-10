@@ -78,15 +78,28 @@ public class DocumentController {
 	}
 	
 	@RequestMapping(value="/deleteDocument/{userId}/{documentId}", method = RequestMethod.DELETE )
-	public boolean deleteDocument(@PathVariable("userId") Long userId, @PathVariable("documentId") Long documentId) {
+	public boolean deleteDocument(@PathVariable("userId") Long userId, @PathVariable("documentId") Long documentId) throws Exception {
 
 		User user = userService.getUserByUserId(userId);
 
 		Document document = documentService.findByUserAndDocumentId(user, documentId);
 
 		System.out.println(document.getDocumentName());
+		
+		boolean isDeleted = false;
+		
+		try {
+			
+			documentService.deleteDocument(document);
+			isDeleted = true;
+			
+		} catch ( Exception e) {
+			
+			throw new Exception(e.getMessage());
+		
+		}
 
-		return false;
+		return isDeleted;
 
 	}
 
