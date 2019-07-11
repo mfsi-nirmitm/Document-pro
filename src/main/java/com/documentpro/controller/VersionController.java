@@ -12,6 +12,7 @@ import com.documentpro.model.Document;
 import com.documentpro.model.Version;
 import com.documentpro.service.DocumentService;
 import com.documentpro.service.FileService;
+import com.documentpro.service.HistoryService;
 import com.documentpro.service.VersionService;
 
 @RestController
@@ -26,6 +27,9 @@ public class VersionController {
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private HistoryService historyService;
 
 	@RequestMapping(value="/uploadNewVersion/{userId}/{documentId}", method = RequestMethod.POST)
 	public boolean uploadNewVersion(@RequestBody MultipartFile file, 
@@ -42,6 +46,7 @@ public class VersionController {
 			
 			documentEntity.setLatestVersion(latestVersion+1);
 			documentService.save(documentEntity);
+			historyService.makeHistory("Uploaded the new version of document "+ documentEntity.getDocumentName());
 			
 			return true;
 			

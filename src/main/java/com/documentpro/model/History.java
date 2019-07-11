@@ -18,7 +18,7 @@ public class History {
 	private Long historyId;
 	
 	@Column( name = "description" )
-	private Long description;
+	private String description;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn( name = "userId" )
@@ -32,11 +32,11 @@ public class History {
 		this.historyId = historyId;
 	}
 
-	public Long getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(Long description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

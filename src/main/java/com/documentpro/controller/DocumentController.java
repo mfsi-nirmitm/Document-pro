@@ -15,6 +15,7 @@ import com.documentpro.model.User;
 import com.documentpro.model.Version;
 import com.documentpro.service.DocumentService;
 import com.documentpro.service.FileService;
+import com.documentpro.service.HistoryService;
 import com.documentpro.service.UserService;
 import com.documentpro.service.VersionService;
 
@@ -33,6 +34,9 @@ public class DocumentController {
 	
 	@Autowired
 	private VersionService versionService;
+	
+	@Autowired
+	private HistoryService historyService;
 	
 	@RequestMapping(value = "say-hello", method = RequestMethod.GET)
 	public String sayHello() {
@@ -55,9 +59,10 @@ public class DocumentController {
 
 			Version versionEntity = versionService.createNewVersion(0l, savedDocument.getDocumentId());
 			boolean isSaved = fileService.transferFile(file, userId, versionEntity.getVersionName());
-
+			
 			if (isSaved) {
 
+				historyService.makeHistory("Uploaded the document with name "+document.getDocumentName());
 				return true;
 
 			}
@@ -91,6 +96,7 @@ public class DocumentController {
 		try {
 			
 			documentService.deleteDocument(document);
+			historyService.makeHistory("deleted the document with name "+document.getDocumentName());
 			isDeleted = true;
 			
 		} catch ( Exception e) {
